@@ -5,8 +5,8 @@ import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import * as ort from "onnxruntime-react-native";
 import { Asset } from "expo-asset";
 import { useNavigation } from "@react-navigation/native";
-
 let myModel;
+
 async function loadModel() {
   try {
     // const assets = await Asset.loadAsync(require("./assets/yolov5s.onnx"));
@@ -54,8 +54,8 @@ const MLScreen = () => {
   return (
     <View style={styles.container}>
       <Text>using ONNX Runtime for React Native</Text>
-      <Button title="Load model" onPress={loadModel}></Button>
-      <Button title="Run" onPress={runModel}></Button>
+      {/* <Button title="Load model" onPress={loadModel}></Button>
+      <Button title="Run" onPress={runModel}></Button> */}
       <Button
         title="Return to Welcome Screen"
         onPress={() => navigation.navigate("WelcomeScreen")}

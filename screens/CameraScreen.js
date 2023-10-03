@@ -1,11 +1,12 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, Image, Text } from "react-native";
+import { View, TouchableOpacity, Image, Text, Button } from "react-native";
 import { Camera } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
+import { useNavigation } from "@react-navigation/native";
 
 const CameraScreen = () => {
+  const navigation = useNavigation(); // Use the useNavigation hook here
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -21,80 +22,77 @@ const CameraScreen = () => {
     if (cameraRef) {
       const photo = await cameraRef.takePictureAsync();
       setCapturedImage(photo);
-      savePicture(photo);
-    }
-  };
-
-  const savePicture = async (photo) => {
-    const asset = await MediaLibrary.createAssetAsync(photo.uri);
-    const album = await MediaLibrary.getAlbumAsync("ExpoCameraExample");
-
-    if (album === null) {
-      await MediaLibrary.createAlbumAsync("ExpoCameraExample", asset, false);
-    } else {
-      await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
     }
   };
 
   return (
     <View style={{ flex: 1 }}>
-      {hasPermission === null ? (
-        <View />
-      ) : hasPermission === false ? (
-        <Text>No access to camera</Text>
-      ) : (
-        <View style={{ flex: 1 }}>
+      {hasPermission === null ?? <View />}
+      {hasPermission === false ?? <Text>No access to camera</Text>}
+      <View style={{ flex: 1 }}>
+        {hasPermission !== null && hasPermission !== false && (
           <Camera
-            style={{ flex: 1 }}
-            type={Camera.Constants.Type.back}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            type={Camera.Constants.Type.front}
             ref={(ref) => setCameraRef(ref)}
           >
             <View
               style={{
-                flex: 1,
-                backgroundColor: "transparent",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                position: "absolute",
+                bottom: 10,
+                justifyContent: "center",
                 padding: 20,
               }}
             >
               <TouchableOpacity
                 style={{
-                  alignSelf: "flex-end",
+                  flex: 1,
                   alignItems: "center",
-                  backgroundColor: "transparent",
+                  justifyContent: "center",
+                  padding: 10,
                 }}
                 onPress={takePicture}
               >
                 <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: "white" }}
+                  style={{
+                    fontSize: 18,
+                    marginBottom: 10,
+                    color: "white",
+                  }}
                 >
                   Take Photo
                 </Text>
+                <Button
+                  title="Return to Welcome Screen"
+                  onPress={() => navigation.navigate("WelcomeScreen")}
+                />
               </TouchableOpacity>
             </View>
           </Camera>
-          {capturedImage && (
-            <View
-              style={{
-                flex: 1,
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                source={{ uri: capturedImage.uri }}
-                style={{ width: "100%", height: "100%" }}
-              />
-            </View>
-          )}
-        </View>
-      )}
+        )}
+        {capturedImage && (
+          <View
+            style={{
+              flex: 1,
+              position: "absolute",
+              width: "30%",
+              height: "30%",
+              right: 0,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={{ uri: capturedImage.uri }}
+              style={{ width: "100%", height: "100%" }}
+            />
+          </View>
+        )}
+      </View>
     </View>
   );
 };
