@@ -12,21 +12,27 @@ const WelcomeScreen = () => {
       <View
         style={{
           flex: 1,
-          flexDirection: "row",
-          gap: 80,
+          flexDirection: "column",
+          gap: 100,
         }}
       >
         <Button
           onPress={() => {
             navigation.navigate("MLScreen");
           }}
-          title="ML Screen"
+          title="ML Model Test"
         />
         <Button
           onPress={() => {
             navigation.navigate("CameraScreen");
           }}
-          title="Camera Screen"
+          title="Camera Test"
+        />
+        <Button
+          onPress={() => {
+            navigation.navigate("IntegratedScreen");
+          }}
+          title="ML + Camera Integrated"
         />
       </View>
     </View>

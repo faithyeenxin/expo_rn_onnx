@@ -18,7 +18,9 @@ async function loadModel() {
       myModel = await ort.InferenceSession.create(modelUri);
       Alert.alert(
         "model loaded successfully",
-        `input names: ${myModel.inputNames}, output names: ${myModel.outputNames}`
+        `myModel: ${JSON.stringify(myModel)}, input names: ${
+          myModel.inputNames
+        }, output names: ${myModel.outputNames}`
       );
     }
   } catch (e) {
@@ -30,6 +32,7 @@ async function loadModel() {
 async function runModel() {
   try {
     const inputData = new Float32Array(28 * 28);
+    console.log(`inputData: ${inputData}`);
     const feeds = {};
     feeds[myModel.inputNames[0]] = new ort.Tensor(inputData, [1, 28, 28]);
     const fetches = await myModel.run(feeds);

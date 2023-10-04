@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MLScreen from "./screens/MLScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import CameraScreen from "./screens/CameraScreen";
+import IntegratedScreen from "./screens/IntegratedScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,11 @@ export default function App() {
         <Stack.Screen
           name="CameraScreen"
           component={CameraScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="IntegratedScreen"
+          component={IntegratedScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
