@@ -27,8 +27,6 @@ async function loadModel() {
   try {
     // const assets = await Asset.loadAsync(require("./assets/yolov5s.onnx"));
     const assets = await Asset.loadAsync(require("../assets/mnist.ort"));
-    console.log(JSON.stringify(assets));
-
     const modelUri = assets[0].localUri;
     if (!modelUri) {
       Alert.alert("failed to get model URI", `${assets[0]}`);
