@@ -18,7 +18,7 @@ import {
 } from "@tensorflow/tfjs-react-native";
 
 const IntegratedScreen = () => {
-  const navigation = useNavigation(); // Use the useNavigation hook here
+  const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -26,6 +26,7 @@ const IntegratedScreen = () => {
 
   async function loadModel() {
     const assets = await Asset.loadAsync(require("../assets/mnist.ort"));
+    console.log(assets);
     const modelUri = assets[0].localUri;
     if (!modelUri) {
       console.error("Failed to get model URI");
@@ -49,7 +50,7 @@ const IntegratedScreen = () => {
       const photo = await cameraRef.takePictureAsync();
       setCapturedImage(photo);
 
-      // Convert image to black and white
+      // Reformat Image
       const reformattedImage = await ImageManipulator.manipulateAsync(
         photo.uri,
         [],
